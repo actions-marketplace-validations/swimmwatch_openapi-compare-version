@@ -1,0 +1,43 @@
+name: "Compare OpenAPI specifications"
+description: "A GitHub Action for comparing OpenAPI specifications version."
+branding:
+  icon: 'align-left'
+  color: 'gray-dark'
+
+inputs:
+  current-spec:
+    required: true
+    description: "Current specification path"
+  new-spec:
+    required: true
+    description: "New specification path"
+
+outputs:
+  is-diff-version:
+    description: "Difference version state ('true' or 'false')"
+    value: ${{steps.compare_version_res.outputs.is_diff_version}}
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Read current specification"
+      id: curr_spec
+      uses: juliangruber/read-file-action@v1
+      with:
+        path: ${{inputs.current-spec}}
+    - name: "Read new specification"
+      id: new_spec
+      uses: juliangruber/read-file-action@v1
+      with:
+        path: ${{inputs.new-spec}}
+    - name: "Compare API versions between specifications"
+      shell: bash
+      id: compare_version_res
+      run: |
+        curr_version="${{fromJson(steps.curr_spec.outputs.content).info.version}}"
+        new_version="${{fromJson(steps.new_spec.outputs.content).info.version}}"
+        if [[ $curr_version == $new_version ]]; then
+          echo "::set-output name=is_diff_version::false"
+        else
+          echo "::set-output name=is_diff_version::true"
+        fi
