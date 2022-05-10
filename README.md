@@ -5,7 +5,7 @@ A GitHub Action for comparing OpenAPI specifications version.
 ```yml
 - name: "Compare OpenAPI specifications version"
   id: compare_res
-  uses: swimmwatch/openapi-compare-version@v1
+  uses: swimmwatch/openapi-compare-version@v1.0.1
   with:
     current-spec: "old_spec.json"
     new-spec: "new_spec.json"
