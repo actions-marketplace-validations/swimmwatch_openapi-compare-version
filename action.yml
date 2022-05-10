@@ -1,4 +1,4 @@
-name: "Compare OpenAPI specifications"
+name: "Compare OpenAPI specifications version"
 description: "A GitHub Action for comparing OpenAPI specifications version."
 branding:
   icon: 'align-left'
